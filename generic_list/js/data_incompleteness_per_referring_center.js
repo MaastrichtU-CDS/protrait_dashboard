@@ -21,7 +21,7 @@ prev_ts_data = ys.previous_tumour_site.map(function(e, i) {
     return [e, ys.referred_by[i]];
 });
 prev_ts_data.map(function(a) {
-    if (a[0] == '' && a[1] == "MUMC+" ) previous_ts_hist_1.push(a[1])
+    if (a[0] == '' && a[1] == "MUMC+") previous_ts_hist_1.push(a[1])
 });
 previous_ts_hist_1.map(function(a) {
     if (a in previous_ts_hist) previous_ts_hist[a]++;
@@ -34,7 +34,7 @@ alc_per_day_data = ys.alcohol_per_day.map(function(e, i) {
     return [e, ys.referred_by[i]];
 });
 alc_per_day_data.map(function(a) {
-    if (a[0] == '' && a[1] == "MUMC+" ) alc_per_day_1.push(a[1])
+    if (a[0] == '' && a[1] == "MUMC+") alc_per_day_1.push(a[1])
 });
 alc_per_day_1.map(function(a) {
     if (a in alc_per_day) alc_per_day[a]++;
@@ -47,7 +47,7 @@ previous_neoplasm_data = ys.previous_neoplasm.map(function(e, i) {
     return [e, ys.referred_by[i]];
 });
 previous_neoplasm_data.map(function(a) {
-    if (a[0] == '' && a[1] == "MUMC+" ) previous_neoplasm_1.push(a[1])
+    if (a[0] == '' && a[1] == "MUMC+") previous_neoplasm_1.push(a[1])
 });
 previous_neoplasm_1.map(function(a) {
     if (a in previous_neoplasm) previous_neoplasm[a]++;
@@ -60,7 +60,7 @@ previous_radiotherapy_data = ys.previous_radiotherapy.map(function(e, i) {
     return [e, ys.referred_by[i]];
 });
 previous_radiotherapy_data.map(function(a) {
-    if (a[0] == '' && a[1] == "MUMC+" ) previous_radiotherapy_1.push(a[1])
+    if (a[0] == '' && a[1] == "MUMC+") previous_radiotherapy_1.push(a[1])
 });
 previous_radiotherapy_1.map(function(a) {
     if (a in previous_radiotherapy) previous_radiotherapy[a]++;
@@ -73,7 +73,7 @@ previous_date_of_diag_data = ys.previous_date_of_diagnosis.map(function(e, i) {
     return [e, ys.referred_by[i]];
 });
 previous_date_of_diag_data.map(function(a) {
-    if (a[0] == '' && a[1] == "MUMC+" ) previous_date_of_diag_1.push(a[1])
+    if (a[0] == '' && a[1] == "MUMC+") previous_date_of_diag_1.push(a[1])
 });
 previous_date_of_diag_1.map(function(a) {
     if (a in previous_date_of_diag) previous_date_of_diag[a]++;
@@ -118,11 +118,11 @@ var trace6 = {
 };
 var data = [trace1, trace2, trace3, trace4, trace5, trace6];
 var layout = {
-     barmode: 'group',
-     title: 'Data incompleteness per referring center',
-showlegend: true,
-xaxis: {
-tickangle: -45
-}
+    barmode: 'group',
+    title: 'Data incompleteness per referring center',
+    showlegend: true,
+    xaxis: {
+        tickangle: -45
+    }
 }
 Plotly.newPlot(element, data, layout);
