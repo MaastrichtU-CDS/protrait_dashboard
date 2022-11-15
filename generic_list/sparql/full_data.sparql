@@ -1,0 +1,105 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ThesaurusOwl: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+PREFIX roo: <http://www.cancerdata.org/roo/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?patient_id ?biological_sex ?age_at_diagnosis ?birth_year ?relationship_status ?smoking_status
+?body_weight ?body_weight_unit 
+?body_height ?body_height_unit
+?treating_center ?referred_by ?has_registration_date
+?alcohol_use_history ?alcohol_per_day
+?radiotherapy
+?treatment ?date_of_first_diagonsis ?tumour_site 
+?previous_neoplasm 
+?previous_radiotherapy ?previous_date_of_diagnosis ?previous_tumour_site
+WHERE{
+    GRAPH <http://localhost/GenericList2_stagingDB>{
+    	?patient rdf:type ThesaurusOwl:C16960;
+        	     roo:P100061 ?patient_ref;
+              	 roo:P100016 ?age_ref;
+                 roo:P100018 ?sex_ref;
+            	 roo:is_born ?birth_year_ref;
+                 roo:has_relationship_status ?rel_status_ref;
+             	 roo:P100306 ?smoking_ref;
+             	 roo:P100249 ?body_weight_ref;
+       	         roo:P100248 ?body_height_ref;
+                 roo:P100039 ?treating_center_ref;
+                 roo:P100022 ?alcohol_ref;
+                 roo:P100024 ?radiotherapy_ref;
+                 roo:P100020 ?neoplasm_ref.
+        ?age_ref roo:P100042 ?age_at_diagnosis;
+                 rdf:type roo:C100002.
+        ?sex_ref roo:P100042 ?biological_sex;
+                 rdf:type ThesaurusOwl:C28421.
+    	?smoking_ref roo:local_value ?smoking_status;
+        	         rdf:type ThesaurusOwl:C19796.
+    	?rel_status_ref roo:local_value ?relationship_status;
+        	            rdf:type ThesaurusOwl:C25188.
+    	?birth_year_ref roo:P100027 ?birth_year;
+        	            rdf:type ThesaurusOwl:C25155.
+    	?patient_ref roo:P100042 ?patient_id;
+        	         rdf:type ThesaurusOwl:C25364.
+    	?body_height_ref rdf:type ThesaurusOwl:C94488;
+						 roo:P100042 ?body_height;
+    	  				 roo:P100027 ?height_unit_ref.
+		?height_unit_ref rdf:type ?hur_ref.
+		?body_weight_ref roo:P100042 ?body_weight;
+						 rdf:type ThesaurusOwl:C81328;
+						 roo:P100027 ?weight_unit_ref.
+		?weight_unit_ref rdf:type ?wur_ref.
+        ?treating_center_ref rdf:type ThesaurusOwl:C19326;
+                              roo:local_value ?treating_center;
+                              roo:referred_by ?referred_by_ref;
+                              roo:has_registration_date ?registration_date_ref.
+        ?registration_date_ref roo:P100042 ?has_registration_date;
+                               rdf:type ThesaurusOwl:C25646.
+		?referred_by_ref rdf:type roo:referralCentre;
+                   		 roo:P100042 ?referred_by.
+        ?alcohol_ref roo:local_value ?alcohol_use_history;
+                     rdf:type ThesaurusOwl:C81229.
+        ?radiotherapy_ref rdf:type ThesaurusOwl:C15313;
+                          roo:has_planning_comparison ?planning_comparison_ref.
+        ?planning_comparison_ref roo:P100042 ?radiotherapy;
+                                 rdf:type roo:planningComparison.
+        ?neoplasm_ref rdf:type ThesaurusOwl:C3262;
+                      roo:P100251 ?date_of_first_diag_ref;
+                      roo:P100403 ?treatment_ref;
+                      roo:previousNeoplasm ?previous_neoplasm_ref.
+        ?treatment_ref rdf:type ThesaurusOwl:C15313;
+                       roo:local_value ?treatment.
+        ?date_of_first_diag_ref rdf:type roo:dateOfFirstDiagnosis;
+                                roo:P100042 ?date_of_first_diagonsis.
+        #FILTER(STR(?radiotherapy) = "true" || STR(?radiotherapy) = "false")
+    }
+    OPTIONAL{
+        ?wur_ref rdf:type owl:Class;
+                 rdfs:label ?body_weight_unit.
+        ?hur_ref rdf:type owl:Class;
+                 rdfs:label ?body_height_unit.
+        ?alcohol_ref roo:P100423 ?alcohol_per_day_ref.
+        ?alcohol_per_day_ref roo:P100042 ?alcohol_per_day;
+                             rdf:type roo:numberOfGlasses.
+    }
+    OPTIONAL{
+        ?previous_neoplasm_ref roo:P100242 ?previous_neoplasm;
+                               rdf:type roo:personalHistoryOfMalignantNeoplasm.
+    }
+    OPTIONAL{
+        ?neoplasm_ref roo:P100202 ?tumour_site_ref.
+        ?tumour_site_ref rdf:type ThesaurusOwl:C3263;
+                         roo:local_value ?tumour_site.
+    }
+    OPTIONAL{
+        ?previous_neoplasm_ref roo:P100251 ?previous_radiotherapy_ref;
+                               roo:P100251 ?previous_date_of_diagnosis_ref;
+                               roo:P100202 ?previous_tumour_site_ref;
+                               rdf:type roo:personalHistoryOfMalignantNeoplasm.
+        ?previous_tumour_site_ref rdf:type ThesaurusOwl:C3263;
+                                  roo:P100042 ?previous_tumour_site.
+        ?previous_date_of_diagnosis_ref rdf:type roo:dateOfDiagnosis;
+                                        roo:P100042 ?previous_date_of_diagnosis.
+        ?previous_radiotherapy_ref rdf:type roo:previousRadiotherapy;
+                                   roo:local_value ?previous_radiotherapy.
+    }
+
+}
